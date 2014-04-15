@@ -1,3 +1,3 @@
 # Commons
-Commons is a [http://campfirenow.com/](Campfire) clone for everyone.
+Commons is a [Campfire](http://campfirenow.com/) clone for everyone.
 
