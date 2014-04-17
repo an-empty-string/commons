@@ -2,4 +2,57 @@
     <div class="jumbotron">
         <h1>Commons</h1>
     </div>
+    <div class="row row-fluid">
+        <span class="col-sm-3">
+            <strong>Room name</strong>
+        </span>
+        <span class="col-sm-3">
+            <strong>Room creator</strong>
+        </span>
+        <span class="col-sm-3">
+            <strong>Last activity</strong>
+        </span>
+        <span class="col-sm-3">
+            <strong>Tools</strong>
+        </span>
+    </div>
+    {{#if currentUser}}
+    <div class="row row-fluid">
+        <span class="col-sm-3">
+            <input type="text" placeholder="Room name..." class="form-control"
+                    id="newRoomName" />
+        </span>
+        <span class="col-sm-6"></span>
+        <span class="col-sm-3">
+            <a href="#" id="createButton">Create room</a>
+        </span>
+    </div>
+    <hr />
+    {{#each rooms}}
+    <div class="row row-fluid">
+        <span class="col-sm-3">
+            {{name}}
+        </span>
+        <span class="col-sm-3">
+            {{ownername}}
+        </span>
+        <span class="col-sm-3">
+            <time utc="{{last_active}}">{{relative_time}}</time>
+        </span>
+        <span class="col-sm-3">
+            <a href="{{pathFor 'room' _id=_id}}">Enter room</a>
+            {{#if ismine}}
+            | <a href="#" class="deleteRoom">Delete room</a>
+            {{/if}}
+        </span>
+    </div>
+    {{/each}}
+    {{/if}}
+    {{#unless currentUser}}
+    <div class="row row-fluid">
+        <span class="col-sm-12">
+            Please log in to view and create rooms
+        </span>
+    </div>
+    {{/unless}}
 </template>
