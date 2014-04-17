@@ -6,18 +6,40 @@
                 {{#each messages}}
                 <div class="row" style="{{magic}}">
                     <div class="col-sm-3">
-                        <b>{{sendername}}</b>
+                        <span class="pull-right">
+                            <b>{{sendername}}</b>
+                        </span>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-sm-7">
                         {{text}}
+                    </div>
+                    <div class="col-sm-2">
+                        <small>{{timestring time}}</small>
                     </div>
                 </div>
                 {{/each}}
             </div>
-            <input type="text" class="form-control" id="message" />
+            <input type="text" class="form-control" id="message" maxlength="1024" />
         </div>
         <div class="col-sm-3">
             owner: {{ownername}} {{#if ismine}}(that's you!){{/if}}<br />
+            all participants: {{participants}}<br />
+            <h3>Here now</h3>
+            <ul class="list-group">
+                {{#each present}}
+                <li class="list-group-item">
+                    {{name}}
+                    {{#if ../ismine}}
+                    {{#unless muted}}
+                    <button id="quiet" class="btn btn-danger">Mute</button>
+                    {{/unless}}
+                    {{#if muted}}
+                    <button id="unquiet" class="btn btn-danger">Unmute</button>
+                    {{/if}}
+                    {{/if}}
+                </li>
+                {{/each}}
+            </ul>
         </div>
     </div>
 </template>

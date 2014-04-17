@@ -16,6 +16,9 @@ Messages.allow({
             console.log(msg);
             if(msg.sender == user) {
                 console.log("the needful has been done!");
+                if(Bans.find({room: msg.room, user: user}).fetch().length > 0) {
+                    return false;
+                }
                 Room.update(msg.room, {$set: {last_active: +new Date}});
                 return true;
             }
@@ -26,9 +29,28 @@ Messages.allow({
             return false;
         }
 });
+Bans.allow({
+        insert: function(user, ban) {
+            console.log(ban);
+            ban.name = getUser(ban.user);
+            return Room.findOne(ban.room).owner === user;
+        },
+        remove: function(user, ban) {
+            return Room.findOne(ban.room).owner === user;
+        }
+});
 Meteor.publish("rooms", function() {
     return Room.find();
 });
 Meteor.publish("messages", function() {
     return Messages.find();
+});
+Meteor.publish("presence", function() {
+    return Presences.find({}, {fields: {state: 1, room: 1, userId: 1}});
+});
+Meteor.publish("more-users", function() {
+    return Meteor.users.find();
+});
+Meteor.publish("bans", function() {
+    return Bans.find();
 });

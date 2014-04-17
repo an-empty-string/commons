@@ -7,7 +7,8 @@
       "timeago": {},
       "iron-router-progress": {},
       "accounts-ui-bootstrap-3-blaze": {},
-      "crypto-md5": {}
+      "crypto-md5": {},
+      "presence": {}
     },
     "packages": {
       "bootstrap-3": {
@@ -39,6 +40,11 @@
         "git": "https://github.com/oortcloud/meteor-crypto-md5.git",
         "tag": "v3.1.2.2",
         "commit": "75bbb3eeace302122d3554a6212a6fe92553fa18"
+      },
+      "presence": {
+        "git": "https://github.com/dburles/meteor-presence.git",
+        "tag": "v0.4.3",
+        "commit": "8bfcae844195ff5681a123cb4302af9e719663ac"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",

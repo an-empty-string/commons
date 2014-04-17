@@ -5,6 +5,7 @@
     "timeago": {},
     "iron-router-progress": {},
     "accounts-ui-bootstrap-3-blaze": {},
-    "crypto-md5": {}
+    "crypto-md5": {},
+    "presence": {}
   }
 }

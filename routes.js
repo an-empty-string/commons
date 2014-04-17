@@ -4,7 +4,7 @@ Router.configure({
 });
 Router.onBeforeAction('loading');
 Router.map(function() {
-    this.route('home', {path: '/'});
+    this.route('home', {path: '/', data: function(){Session.set("currentroom", ""); return {};}});
     this.route('room', {
             path: '/rooms/:_id',
             waitOn: function() {
@@ -16,7 +16,7 @@ Router.map(function() {
                 if(x){
                     x.relative_time = $.timeago(new Date(x.last_active));
                     x.last_active = new Date(x.last_active).toISOString();
-                    x.ismine = (x.ownername == Meteor.user().username);
+                    x.ismine = (x.owner == Meteor.userId());
                 }
                 var messages = Messages.find({room: this.params._id}).fetch();
                 var newMsgs = [];
@@ -36,10 +36,30 @@ Router.map(function() {
                     newMsgs.push(y);
                 });
                 x.messages = newMsgs;
+                var id = this.params._id;
+                x.present = Presences.find({}).fetch().filter(function(x) {
+                    try {
+                        return x.state.room == id;
+                    }
+                    catch(e){ return false; }
+                }).map(function(x) {
+                    try{
+                        var user = Meteor.users.findOne(x.userId);
+                        return {name: user.profile.name, id: x.userId, room: id,
+                            muted: (Bans.find({user: x.userId, room:id}).fetch().length > 0) };
+                    }
+                    catch(e){ return "unknown user"; }
+                });
                 console.log(x);
                 window.setTimeout(function() {
                     $("#allmsgs").scrollTop($("#allmsgs")[0].scrollHeight);
                 }, 10);
+                x.participants = [];
+                x.messages.forEach(function(y) {
+                    if(x.participants.indexOf(y.sendername) == -1)
+                        x.participants.push(y.sendername);
+                });
+                x.participants = x.participants.join(", ");
                 return x;
             }
     });
