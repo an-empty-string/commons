@@ -21,7 +21,7 @@ Router.map(function() {
                 var messages = Messages.find({room: this.params._id}).fetch();
                 var newMsgs = [];
                 messages.forEach(function(y){ 
-                    var color = "#" + CryptoJS.MD5(x.sendername).toString().slice(0, 6);
+                    var color = "#" + CryptoJS.MD5(y.sendername).toString().slice(0, 6);
                     // SHAMELESSLY STOLEN FROM STACKOVERFLOW
                     function hexToRgb(hex) {
                         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -37,6 +37,9 @@ Router.map(function() {
                 });
                 x.messages = newMsgs;
                 console.log(x);
+                window.setTimeout(function() {
+                    $("#allmsgs").scrollTop($("#allmsgs")[0].scrollHeight);
+                }, 10);
                 return x;
             }
     });

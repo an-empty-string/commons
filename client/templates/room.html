@@ -1,19 +1,20 @@
 <template name="room">
     <h1>{{name}}</h1>
     <div class="row row-fluid fullheight">
-        <div class="col-sm-9 fullheight">
-            <div class="well" style="width:100%;height:80%;">
+        <div class="col-sm-9 almostfullheight">
+            <div class="well" style="width:100%;height:80%;overflow:auto;" id="allmsgs">
                 {{#each messages}}
-                <div class="row">
-                    <div class="col-sm-2" style="{{magic}}">
+                <div class="row" style="{{magic}}">
+                    <div class="col-sm-3">
                         <b>{{sendername}}</b>
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-9">
                         {{text}}
                     </div>
                 </div>
                 {{/each}}
             </div>
+            <input type="text" class="form-control" id="message" />
         </div>
         <div class="col-sm-3">
             owner: {{ownername}} {{#if ismine}}(that's you!){{/if}}<br />
