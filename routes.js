@@ -46,7 +46,8 @@ Router.map(function() {
                     try{
                         var user = Meteor.users.findOne(x.userId);
                         return {name: user.profile.name, id: x.userId, room: id,
-                            muted: (Bans.find({user: x.userId, room:id}).fetch().length > 0) };
+                            muted: (Bans.find({user: x.userId, room:id}).fetch().length > 0),
+                            voiced:(Voices.find({user:x.userId,room:id}).fetch().length > 0)};
                     }
                     catch(e){ return "unknown user"; }
                 });

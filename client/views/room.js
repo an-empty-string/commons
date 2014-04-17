@@ -19,7 +19,14 @@ Template.room.events({
         },
         'click #unquiet': function() {
             Bans.remove(Bans.findOne({room: this.room, user: this.id})._id);
+        },
+        'click #voice': function() {
+            Voices.insert({room: this.room, user: this.id});
+        },
+        'click #devoice': function() {
+            Voices.remove(Voices.findOne({room: this.room, user: this.id})._id);
         }
+
 });
 
 Template.room.helpers({

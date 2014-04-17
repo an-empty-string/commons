@@ -2,6 +2,7 @@ Room.allow({
         insert: function(user, room) {
             room.ownername = getUser(user)
             room.last_active = +new Date;
+            if(Room.find({owner: user}).fetch().length >= 10) return false;
             return room.owner === user;
         },
         remove: function(user, room) {
@@ -19,6 +20,9 @@ Messages.allow({
                 if(Bans.find({room: msg.room, user: user}).fetch().length > 0) {
                     return false;
                 }
+                if(Voices.find({room: msg.room, user: user}).fetch().length > 0)
+                    msg.important = true;
+                else msg.important = false;
                 Room.update(msg.room, {$set: {last_active: +new Date}});
                 return true;
             }
@@ -39,6 +43,17 @@ Bans.allow({
             return Room.findOne(ban.room).owner === user;
         }
 });
+Voices.allow({
+        insert: function(user, ban) {
+            console.log(ban);
+            ban.name = getUser(ban.user);
+            return Room.findOne(ban.room).owner === user;
+        },
+        remove: function(user, ban) {
+            return Room.findOne(ban.room).owner === user;
+        }
+});
+
 Meteor.publish("rooms", function() {
     return Room.find();
 });
@@ -53,4 +68,7 @@ Meteor.publish("more-users", function() {
 });
 Meteor.publish("bans", function() {
     return Bans.find();
+});
+Meteor.publish("voices", function() {
+    return Voices.find();
 });

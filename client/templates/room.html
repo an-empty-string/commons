@@ -11,7 +11,14 @@
                         </span>
                     </div>
                     <div class="col-sm-7">
+                        {{#if important}}
+                        <span style="color:red">
+                            {{text}}
+                        </span>
+                        {{/if}}
+                        {{#unless important}}
                         {{text}}
+                        {{/unless}}
                     </div>
                     <div class="col-sm-2">
                         <small>{{timestring time}}</small>
@@ -30,12 +37,20 @@
                 <li class="list-group-item">
                     {{name}}
                     {{#if ../ismine}}
-                    {{#unless muted}}
-                    <button id="quiet" class="btn btn-danger">Mute</button>
-                    {{/unless}}
-                    {{#if muted}}
-                    <button id="unquiet" class="btn btn-danger">Unmute</button>
-                    {{/if}}
+                    <div class="btn-group">
+                        {{#unless muted}}
+                        <button id="quiet" class="btn btn-xs">Mute</button>
+                        {{/unless}}
+                        {{#if muted}}
+                        <button id="unquiet" class="btn btn-xs">Unmute</button>
+                        {{/if}}
+                        {{#unless voiced}}
+                        <button id="voice" class="btn btn-xs">Mark messages</button>
+                        {{/unless}}
+                        {{#if voiced}}
+                        <button id="devoice" class="btn btn-xs">Unmark messages</button>
+                        {{/if}}
+                    </div>
                     {{/if}}
                 </li>
                 {{/each}}
